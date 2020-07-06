@@ -1,1 +1,1 @@
-web: guinicorn ecom_aceleradev.wsgi
+web: gunicorn ecom_aceleradev.wsgi
