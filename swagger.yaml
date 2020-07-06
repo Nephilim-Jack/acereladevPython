@@ -1,0 +1,113 @@
+swagger: "2.0"
+info:
+  description: "Descrição do Ecomm AceleraDev"
+  version: "1.0.0"
+  title: "Swagger Petstore"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "petstore.swagger.io"
+basePath: "/v2"
+tags:
+- name: "product"
+  description: "Everything about your Pets"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /products:
+    post:
+      tags:
+      - "product"
+      summary: "Salva um produto"
+      description: "Salva o produto com os dados fornecidos"
+      operationId: "addProduct"
+      consumes:
+      - "aplication/json"
+      produces:
+      - "aplication/json"
+      parameters:
+      - in: "body"
+        name: "product"
+        description: "Objeto com os dados do produto a ser salvo"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        "201":
+          description: "Produto criado"
+        "400":
+          description: "Dados inválidos"
+      security:
+      - token: []
+    get:
+      tags:
+      - "product"
+      summary: "Lista os Produtos"
+      description: "Lista todos os produtos que estão cadstrados no Ecomm"
+      operationId: "listProducts"
+      responses:
+        "200":
+          description: "Lista de Produtos"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ProductResponse"
+securityDefinitions:
+  token:
+    type: "apiKey"
+    name: "token"
+    in: "header"
+definitions:
+  Category:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "Produtos em Promoção"
+      description:
+        type: "string"
+        example: "Descrição da categoria"
+  Product:
+    type: "object"
+    required:
+    - "name"
+    - "description"
+    properties:
+      name:
+        type: "string"
+        example: "Meu Produto"
+      description:
+        type: "string"
+        example: "Descrição do meu produto"
+      price:
+        type: "number"
+        example: 10.50
+      category:
+        $ref: "#/definitions/Category"
+  ProductResponse:
+    type: "object"
+    properties:
+      id: 
+        type: "integer"
+        example: 1
+      name:
+        type: "string"
+        example: "Meu Produto"
+      description:
+        type: "string"
+        example: "Descrição do meu produto"
+      price:
+        type: "number"
+        example: 10.50
+      category:
+        $ref: "#/definitions/Category"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

@@ -1,0 +1,95 @@
+#%RAML 1.0
+title: Ecomm
+version: v1
+baseUri: https://127.0.0.1/rest_api
+mediaType: application/json
+
+types:
+    Product:
+    type: object
+        properties:
+            name:  string
+            description:  string
+            category:  Category
+            price:  number
+        
+        example:
+            name: Produto 1
+            description: Produto Legal
+            category: Produtos em Promoção
+            price: 10.50
+    
+    Category:
+    type: object
+        properties:
+            name:  string
+            description:  string
+        
+        example:
+            name: Produtos em Promoção
+            description: Produto por um preço menor
+
+    ProductResponse:
+    type: object
+        properties:
+            id: integer
+            name:  string
+            description:  string
+            category:  Category
+            price:  number
+        
+        example:
+            id: 1
+            name: Produto 1
+            description: Produto Legal
+            category: Produtos em Promoção
+            price: 10.50
+
+    Mensagem:
+    type: object
+        properties:
+            mensagem: string
+        
+        example:
+            mensagem: Produto já cadastrado
+
+/products:
+    description: 'Products Set'
+    get:
+        description: 'Return all products in Ecomm.'
+        responses:
+            200: 
+                body: 
+                    application/json:
+                        type: ProductResponse[]
+            400:
+                body:
+                    application/json:
+                        type: Mensagem 
+    post:
+        description: 'Save a new product in Ecomm.'
+        body:
+            type: Product
+        responses:
+            201: 
+                body: 
+                    application/json:
+                        type: Product
+            400:
+                body:
+                    application/json:
+                        type: Mensagem 
+
+/categories:
+    description: 'Categories Set'
+    get:
+        description: 'Return all categories in Ecomm'
+        responses:
+            200:
+                body: 
+                    application/json:
+                        type: Category
+            400:
+                body:
+                    application/json:
+                        type: Mensagem 
