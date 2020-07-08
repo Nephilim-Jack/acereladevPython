@@ -140,5 +140,5 @@ STATIC_URL = '/static/'
 # }
 
 if 'CI' in os.environ:
-    config['TEST_RUNNER'] = 'django_heroku.HerokuDiscoverRunner'
+    TEST_RUNNER = 'django_heroku.HerokuDiscoverRunner'
 django_heroku.settings(locals())
