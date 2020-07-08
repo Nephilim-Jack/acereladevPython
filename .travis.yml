@@ -1,12 +1,23 @@
 language: python
 python:
-- 3.6.10
+  - "3.6.10"
+
 stages:
-- name: test
-jobs:
-- stage: test
-  name: Unit Tests
-  script: python manage.py test
-deploy:
-  api_key:
-    secure: HG48KZYDmeU3CBU7Uofr4Yha2C/lrTHbRsZr6vWHmwJ3Pu/gWLVtfMBbqPaF0Wq1imE5xgn5TXMv4UfStl3Df+8zuSWkzkykH5s7pCn1mAuRxHwCHwnOJ8jA9EZ1jmi8fnbu22xafES1lb5AibcIUSCpy14+ndlofkMX9iBVoz2/E75TO0T4vi+AHkY+PMU840EowWbmLfkV4gk6LUOPGnc5SPYo2CBK1f8tFxIP4beEqttbrN8sfNzex+ok6xUsSA088GYO6Mjeo44CBVtG/rCzgmVpXhNFwvDp09tBl4n6qwcY2w/MIpNy3Swa6NirbTQv0bJCfbjzPbRkRo3oMF3wyY9LJaod1/a9slfg9rhstmzYlBY3Cc2iVQP2egJRi+CEzk+HE8C0V80T/GgmrUXc8QIfzsLOGRQNm4rqEvJdCosphaDJrAAyrCCmciZ+88BE9Xkz9C5qIzBQgsH5ZdykrtiKaNu1lLUL9WtTi1C/2ZSVpWQv7IKDlbwQfepuTr0SrwZpEwNWJ/jm1neXYRj2DN6elO4X15koeLFWCBBneOgEW4OSnF8AuIy3BtyK2guxXlau83Uo+mAG95MkG1/2nzSHFGDxyUvTUO/Q3m9LH1WP6umlSvHlSpCLm/x5arG8GB9wSMJKXzhRRv4OIdnxoXmjWlfAy6Wfl1BaoDg=
+  - name: test
+  - name: deploy
+
+jobs: 
+  include:
+    - stage: test
+      name: Unit Tests
+      script: python manage.py test
+    - stage: deploy
+      name: Heroku Deploy
+      script: /bin/true
+      deploy:
+          provider: heroku
+          api_key:
+            secure: HG48KZYDmeU3CBU7Uofr4Yha2C/lrTHbRsZr6vWHmwJ3Pu/gWLVtfMBbqPaF0Wq1imE5xgn5TXMv4UfStl3Df+8zuSWkzkykH5s7pCn1mAuRxHwCHwnOJ8jA9EZ1jmi8fnbu22xafES1lb5AibcIUSCpy14+ndlofkMX9iBVoz2/E75TO0T4vi+AHkY+PMU840EowWbmLfkV4gk6LUOPGnc5SPYo2CBK1f8tFxIP4beEqttbrN8sfNzex+ok6xUsSA088GYO6Mjeo44CBVtG/rCzgmVpXhNFwvDp09tBl4n6qwcY2w/MIpNy3Swa6NirbTQv0bJCfbjzPbRkRo3oMF3wyY9LJaod1/a9slfg9rhstmzYlBY3Cc2iVQP2egJRi+CEzk+HE8C0V80T/GgmrUXc8QIfzsLOGRQNm4rqEvJdCosphaDJrAAyrCCmciZ+88BE9Xkz9C5qIzBQgsH5ZdykrtiKaNu1lLUL9WtTi1C/2ZSVpWQv7IKDlbwQfepuTr0SrwZpEwNWJ/jm1neXYRj2DN6elO4X15koeLFWCBBneOgEW4OSnF8AuIy3BtyK2guxXlau83Uo+mAG95MkG1/2nzSHFGDxyUvTUO/Q3m9LH1WP6umlSvHlSpCLm/x5arG8GB9wSMJKXzhRRv4OIdnxoXmjWlfAy6Wfl1BaoDg=
+          app: acelera-dev-pythonecomm
+          on: master
+          run: "python manage.py migrate"
